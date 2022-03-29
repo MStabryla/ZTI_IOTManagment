@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
+using MongoDB.Bson;
 using SysOT.Services;
 
 namespace SysOT
@@ -57,6 +57,20 @@ namespace SysOT
             {
                 endpoints.MapControllers();
             });
+
+            
+            Seed(app);
+        }
+        public void Seed(IApplicationBuilder app){
+            IMongoService mongoSeedService = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IMongoService>();
+            var query = new BsonDocument {};
+            
+            if(mongoSeedService.GetDocuments<object>("Devices",query).Count() <= 0)
+            {
+                Console.WriteLine("Seed started ...");
+                mongoSeedService.InsertDocument<object>("Devices", new { Name="Test"} );
+                Console.WriteLine("Seed finished.");
+            }
         }
     }
 }

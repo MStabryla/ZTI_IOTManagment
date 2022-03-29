@@ -1,2 +1,2 @@
-docker run --name zti-mongo --rm -d -p 22:3061 mongo:latest
+docker run --name zti-mongo --rm -d -p 3061:27017 -e MONGO_INITDB_ROOT_USERNAME=zti-mongo -e MONGO_INITDB_ROOT_PASSWORD=zaq1WSX  -e MONGO_INITDB_DATABASE=SysOT mongo:latest
 dotnet run --project .\backend\backend.csproj
