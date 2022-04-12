@@ -1,0 +1,120 @@
+{
+    "Devices":[
+        {
+            "DeviceName": "CR01",
+            "IpAddress": "192.168.105.90",
+            "Type": "atmospheric",
+            "Mobile": false
+        },
+        {
+            "DeviceName": "CR02",
+            "IpAddress": "192.168.105.91",
+            "Type": "thermal",
+            "Mobile": false
+        },
+        {
+            "DeviceName": "SR01",
+            "IpAddress": "192.168.100.30",
+            "Type": "gas sensor",
+            "Mobile": true
+        }
+    ],
+    "MeasurementTypes":[
+        {
+            "TypeName":"temperature - integer",
+            "VariableType": "int",
+            "Numeric": true
+        },
+        {
+            "TypeName":"temperature - float",
+            "VariableType": "float",
+            "Numeric": true
+        },
+        {
+            "TypeName":"CO gas dencity",
+            "VariableType": "float",
+            "Numeric": true
+        },
+        {
+            "TypeName":"Small text",
+            "VariableType": "string",
+            "Numeric": false
+        }
+    ],
+    "Measurements":[
+        { 
+            "Device": { 
+                "DeviceName": "CR01", "IpAddress": "192.168.105.90", "Type": "atmospheric","Mobile": false 
+            }, 
+            "MeasurementType": {
+                "TypeName":"numeric - integer",
+                "VariableType": "int",
+                "Numeric": true
+            },
+            "StartDate":"2021-10-09T00:00:00.000Z",
+            "EndDate":"2021-10-16T00:00:00.000Z",
+            "Values":[
+                { "Value":"25", "Time" : "2021-10-09T02:17:21.000Z" },
+                { "Value":"24", "Time" : "2021-10-09T16:17:17.000Z" },
+                { "Value":"22", "Time" : "2021-10-09T10:17:18.000Z" },
+                { "Value":"25", "Time" : "2021-10-09T14:17:21.000Z" },
+                { "Value":"24", "Time" : "2021-10-09T18:17:17.000Z" },
+                { "Value":"22", "Time" : "2021-10-09T22:17:18.000Z" },
+                { "Value":"25", "Time" : "2021-10-10T02:17:21.000Z" },
+                { "Value":"24", "Time" : "2021-10-10T06:17:17.000Z" },
+                { "Value":"22", "Time" : "2021-10-10T10:17:18.000Z" },
+                { "Value":"25", "Time" : "2021-10-10T14:17:21.000Z" },
+                { "Value":"24", "Time" : "2021-10-10T18:17:17.000Z" },
+                { "Value":"25", "Time" : "2021-10-10T22:17:21.000Z" },
+                { "Value":"24", "Time" : "2021-10-11T02:17:17.000Z" },
+                { "Value":"22", "Time" : "2021-10-11T06:17:18.000Z" },
+                { "Value":"25", "Time" : "2021-10-11T10:17:21.000Z" },
+                { "Value":"26", "Time" : "2021-10-11T14:17:17.000Z" },
+                { "Value":"24", "Time" : "2021-10-11T18:17:18.000Z" },
+                { "Value":"21", "Time" : "2021-10-11T22:17:21.000Z" },
+                { "Value":"22", "Time" : "2021-10-12T02:17:17.000Z" },
+                { "Value":"19", "Time" : "2021-10-12T06:17:18.000Z" },
+                { "Value":"25", "Time" : "2021-10-12T10:17:21.000Z" },
+                { "Value":"26", "Time" : "2021-10-12T14:17:17.000Z" }
+            ]
+        },
+        { 
+            "Device": { 
+                "DeviceName": "SR01", "IpAddress": "192.168.105.90", "Type": "atmospheric","Mobile": false 
+            }, 
+            "MeasurementType": {
+                "TypeName":"CO gas dencity",
+                "VariableType": "float",
+                "Numeric": true
+            },
+            "StartDate":"2021-10-09T00:00:00.000Z",
+            "EndDate":"2021-10-16T00:00:00.000Z",
+            "Values":[
+                { "Value":"0.01", "Time" : "2021-10-09T02:17:21.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-09T16:17:17.000Z" },
+                { "Value":"0.02", "Time" : "2021-10-09T10:17:18.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-09T14:17:21.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-09T18:17:17.000Z" },
+                { "Value":"0.03", "Time" : "2021-10-09T22:17:18.000Z" },
+                { "Value":"0.05", "Time" : "2021-10-10T02:17:21.000Z" },
+                { "Value":"0.11", "Time" : "2021-10-10T06:17:17.000Z" },
+                { "Value":"0.02", "Time" : "2021-10-10T10:17:18.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-10T14:17:21.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-10T18:17:17.000Z" },
+                { "Value":"0.02", "Time" : "2021-10-10T22:17:18.000Z" },
+                { "Value":"0.05", "Time" : "2021-10-10T02:17:21.000Z" },
+                { "Value":"0.06", "Time" : "2021-10-11T06:17:17.000Z" },
+                { "Value":"0.04", "Time" : "2021-10-11T10:17:18.000Z" },
+                { "Value":"0.03", "Time" : "2021-10-11T14:17:21.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-11T18:17:17.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-11T22:17:18.000Z" },
+                { "Value":"0.21", "Time" : "2021-10-12T02:17:21.000Z" },
+                { "Value":"0.07", "Time" : "2021-10-12T06:17:17.000Z" },
+                { "Value":"0.02", "Time" : "2021-10-12T10:17:18.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-12T14:17:21.000Z" },
+                { "Value":"0.01", "Time" : "2021-10-12T18:17:17.000Z" },
+                { "Value":"0.04", "Time" : "2021-10-12T22:17:18.000Z" }
+            ]
+        }
+    ]
+}

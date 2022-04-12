@@ -8,11 +8,14 @@ namespace SysOT.Services
 {
     public interface IMongoService
     {
+        void InsertCollection(string collectionName);
         void InsertDocument<T>(string collectionName, T document);
+        void InsertDocuments<T>(string collectionName, IEnumerable<T> document);
         IEnumerable<T> GetDocuments<T>(string collectionName, BsonDocument queryObject);
 
         Task InsertCollectionAsync(string collectionName);
         Task InsertDocumentAsync<T>(string collectionName, T document);
+        Task InsertDocumentsAsync<T>(string collectionName, IEnumerable<T> document);
         Task<IEnumerable<T>> GetDocumentsAsync<T>(string collectionName, BsonDocument queryObject);
         Task UpdateDocuments(string collectionName, object queryObject,object setObject);
         Task RemoveDocuments(string collectionName, object queryObject);
@@ -44,6 +47,10 @@ namespace SysOT.Services
             return results.ToEnumerable();
         }
 
+        public void InsertCollection(string collectionName){
+            database.CreateCollection(collectionName);
+        }
+
         public async Task InsertCollectionAsync(string collectionName){
             await database.CreateCollectionAsync(collectionName);
         }
@@ -58,6 +65,18 @@ namespace SysOT.Services
         {
             var collection = database.GetCollection<T>(collectionName);
             await collection.InsertOneAsync(document);
+        }
+
+        public void InsertDocuments<T>(string collectionName, IEnumerable<T> document)
+        {
+            var collection = database.GetCollection<T>(collectionName);
+            collection.InsertMany(document);
+        }
+
+        public async Task InsertDocumentsAsync<T>(string collectionName, IEnumerable<T> document)
+        {
+            var collection = database.GetCollection<T>(collectionName);
+            await collection.InsertManyAsync(document);
         }
 
         public async Task RemoveDocuments(string collectionName, object queryObject)
