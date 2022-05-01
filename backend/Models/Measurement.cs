@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace SysOT.Models
 {
-    public class Measurement<T> : BaseModel
+    public class Measurement<T>
     {
         [BsonRequired]
         public T Value { get; set; }

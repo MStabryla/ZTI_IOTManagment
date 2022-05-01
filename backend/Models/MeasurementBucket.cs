@@ -7,7 +7,7 @@ namespace SysOT.Models
     public class MeasurementBucket : BaseModel
     {
         [BsonRequired]
-        public IEnumerable<object> Values { get; set; }
+        public IEnumerable<Measurement<object>> Values { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -16,6 +19,8 @@ using MongoDB.Bson;
 using SysOT.Models;
 using SysOT.Services;
 using Newtonsoft.Json;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SysOT
 {
@@ -34,9 +39,29 @@ namespace SysOT
 
             services.AddControllers();
             services.AddScoped<IMongoService,MongoService>();
+            services.AddScoped<IEncService,EncService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SysOT - backend", Version = "v1" });
+            });
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                var Key = Encoding.UTF8.GetBytes(Configuration["JWT:Key"]);
+                o.SaveToken = true;
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["JWT:Issuer"],
+                    ValidAudience = Configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Key)
+                };
             });
         }
 
@@ -54,6 +79,8 @@ namespace SysOT
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -62,10 +89,11 @@ namespace SysOT
             });
 
             if(Configuration.GetValue<string>("migrate") == "true")
-                Seed(app,env.ContentRootPath + "\\" + Configuration["Database:SeedFile"]);
+                Seed(app,env.ContentRootPath + "\\" + Configuration["Database:SeedFile"],Configuration["Database:SeedPassword"],Configuration["Database:Salt"]);
         }
-        public void Seed(IApplicationBuilder app,string seed){
+        public void Seed(IApplicationBuilder app,string seed,string password,string salt){
             IMongoService mongoSeedService = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IMongoService>();
+            IEncService encService = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IEncService>();
             var query = new BsonDocument {};
             
             if(mongoSeedService.GetDocuments<Device>("Devices",query).Count() <= 0)
@@ -80,12 +108,20 @@ namespace SysOT
                 mongoSeedService.InsertCollection("MeasurementBuckets");
                 Console.WriteLine("Collection initialized ...");
                 
+                var saltBytes = Encoding.UTF8.GetBytes(salt.ToString());
+                model.Users = model.Users.Select(x => { 
+                    x.PasswordHash = encService.EncryptPassword(password);
+                    return x;
+                });
+                mongoSeedService.InsertDocuments("Users",model.Users);
+                Console.WriteLine("Users initialized ...");
                 mongoSeedService.InsertDocuments("Devices",model.Devices);
                 Console.WriteLine("Devices initialized ...");
                 mongoSeedService.InsertDocuments("MeasurementTypes",model.MeasurementTypes);
                 Console.WriteLine("MeasurementTypes initialized ...");
                 mongoSeedService.InsertDocuments("MeasurementBuckets",model.Measurements);
                 Console.WriteLine("MeasurementBuckets initialized ...");
+
 
                 Console.WriteLine("Seed finished.");
             }

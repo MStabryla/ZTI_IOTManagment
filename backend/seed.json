@@ -1,4 +1,21 @@
 {
+    "Users":[
+        {
+            "Name": "main_admin",
+            "Email": "main_admin@sysot.com",
+            "Roles":["Admin","User"]
+        },
+        {
+            "Name": "manager",
+            "Email": "manager@sysot.com",
+            "Roles":["Manager","User"]
+        },
+        {
+            "Name": "device_03",
+            "Email": "device_03@devices.sysot.com",
+            "Roles":["Device"]
+        }
+    ],
     "Devices":[
         {
             "DeviceName": "CR01",
