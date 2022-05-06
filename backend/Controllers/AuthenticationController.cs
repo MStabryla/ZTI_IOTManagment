@@ -39,5 +39,17 @@ namespace backend.Controllers
         public IActionResult TestAuthorize(){
             return Ok("Accepted");
         }
+
+        [Authorize(Roles = "Manager")]
+        [HttpGet("test_man")]
+        public IActionResult TestAuthorizeRolesManager(){
+            return Ok("Accepted");
+        }
+        
+        [Authorize(Roles = "Admin")]
+        [HttpGet("test_admin")]
+        public IActionResult TestAuthorizeRolesAdministrator(){
+            return Ok("Accepted");
+        }
     }
 }

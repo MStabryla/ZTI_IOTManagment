@@ -40,12 +40,12 @@ namespace SysOT.Services
         public string GenerateToken(User user){
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            var tokenDescriptor = new SecurityTokenDescriptor(){
-                Subject = new ClaimsIdentity(new Claim[]{
+            var claims = new Claim[] {
                     new Claim(ClaimTypes.Email,user.Email),
                     new Claim(ClaimTypes.NameIdentifier,user.Id),
-                    new Claim("Roles", string.Join(",",user.Roles))
-                }),
+            }; 
+            var tokenDescriptor = new SecurityTokenDescriptor(){
+                Subject = new ClaimsIdentity(claims.Concat(user.Roles.Select(x => new Claim(ClaimTypes.Role,x.ToString())).ToArray())),
                 Expires = DateTime.UtcNow.AddHours(int.Parse(configuration["JWT:TokenLifeExpectancyInHours"].ToString())),
                 SigningCredentials = new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256),
                 Issuer = configuration["JWT:Issuer"],
