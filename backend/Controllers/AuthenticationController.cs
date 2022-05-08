@@ -33,23 +33,5 @@ namespace backend.Controllers
             var token = enc.GenerateToken(user);
             return Ok(new {token});
         }
-
-        [Authorize]
-        [HttpGet("test")]
-        public IActionResult TestAuthorize(){
-            return Ok("Accepted");
-        }
-
-        [Authorize(Roles = "Manager")]
-        [HttpGet("test_man")]
-        public IActionResult TestAuthorizeRolesManager(){
-            return Ok("Accepted");
-        }
-        
-        [Authorize(Roles = "Admin")]
-        [HttpGet("test_admin")]
-        public IActionResult TestAuthorizeRolesAdministrator(){
-            return Ok("Accepted");
-        }
     }
 }

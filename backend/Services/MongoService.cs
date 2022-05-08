@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
@@ -17,8 +19,8 @@ namespace SysOT.Services
         Task InsertDocumentAsync<T>(string collectionName, T document);
         Task InsertDocumentsAsync<T>(string collectionName, IEnumerable<T> document);
         Task<IEnumerable<T>> GetDocumentsAsync<T>(string collectionName, BsonDocument queryObject);
-        Task UpdateDocuments(string collectionName, object queryObject,object setObject);
-        Task RemoveDocuments(string collectionName, object queryObject);
+        Task<long> UpdateDocuments<T>(string collectionName, Expression<Func<T,bool>> filter, object setObject);
+        Task<long> RemoveDocuments<T>(string collectionName, Expression<Func<T,bool>> filter);
     }
 
     public class MongoService : IMongoService
@@ -37,14 +39,14 @@ namespace SysOT.Services
         {
             var collection = database.GetCollection<T>(collectionName);
             var results = collection.Find<T>(queryObject);
-            return results.ToEnumerable();
+            return results.ToList();
         }
 
         public async Task<IEnumerable<T>> GetDocumentsAsync<T>(string collectionName, BsonDocument queryObject)
         {
             var collection = database.GetCollection<T>(collectionName);
             var results = await collection.FindAsync<T>(queryObject);
-            return results.ToEnumerable();
+            return results.ToList();
         }
 
         public void InsertCollection(string collectionName){
@@ -79,16 +81,30 @@ namespace SysOT.Services
             await collection.InsertManyAsync(document);
         }
 
-        public async Task RemoveDocuments(string collectionName, object queryObject)
+        public async Task<long> RemoveDocuments<T>(string collectionName, Expression<Func<T,bool>> filter)
         {
-            await Task.Run(() => {});
-            throw new System.NotImplementedException();
+            var collection = database.GetCollection<T>(collectionName);
+            var result = await collection.DeleteManyAsync<T>(filter);
+            return result.DeletedCount;
         }
 
-        public async Task UpdateDocuments(string collectionName, object queryObject, object setObject)
+        public async Task<long> UpdateDocuments<T>(string collectionName, Expression<Func<T,bool>> filter, object setObject)
         {
-            await Task.Run(() => {});
-            throw new System.NotImplementedException();
+            var collection = database.GetCollection<T>(collectionName);
+            var type = setObject.GetType();
+            UpdateDefinition<T> uDef = null;
+            foreach(var field in type.GetProperties())
+            {
+                if(field.Name == "Id")
+                    continue;
+                var value = field.GetValue(setObject);
+                if(uDef == null)
+                    uDef = Builders<T>.Update.Set(field.Name,value);
+                else
+                    uDef = uDef.Set(field.Name,value);
+            }
+            var result = await collection.UpdateManyAsync(filter,uDef);
+            return result.ModifiedCount;
         }
     }
 }
