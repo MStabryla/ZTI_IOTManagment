@@ -44,7 +44,7 @@ namespace SysOT.Controllers
         {
             model.PasswordHash = enc.EncryptPassword(model.PasswordHash);
             await db.InsertDocumentAsync<UserModel>("Users",model);
-            return Ok(model.Cast<UserModel,UserViewModel>());
+            return Ok(model.Cast<UserViewModel,UserModel>());
         }
 
         [HttpPut("{id}")]
@@ -56,7 +56,8 @@ namespace SysOT.Controllers
             var result = await db.UpdateDocuments<UserModel>("Users",x => x.Id == id,model);
             if(result != 1)
                 throw new Exception("Wrong query to database");
-            return Ok();
+                model = (await db.GetDocumentsAsync<UserModel>("Users",(new {_id = new ObjectId(id)}).ToBsonDocument())).First();
+            return Ok(model);
         }
 
         [HttpDelete("{id}")]

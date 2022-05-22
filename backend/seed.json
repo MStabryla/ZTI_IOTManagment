@@ -1,16 +1,19 @@
 {
     "Users":[
         {
+            "_id" : "b3BlbnNzaC1rZXktdjEAAAA1",
             "Name": "main_admin",
             "Email": "main_admin@sysot.com",
             "Roles":["Admin","User"]
         },
         {
+            "_id" : "b3BlbnNzaC1rZXktdjEAAAA2",
             "Name": "manager",
             "Email": "manager@sysot.com",
             "Roles":["Manager","User"]
         },
         {
+            "_id" : "b3BlbnNzaC1rZXktdjEAAAA3",
             "Name": "device_03",
             "Email": "device_03@devices.sysot.com",
             "Roles":["Device"]
@@ -21,18 +24,21 @@
             "DeviceName": "CR01",
             "IpAddress": "192.168.105.90",
             "Type": "atmospheric",
+            "Managers": ["b3BlbnNzaC1rZXktdjEAAAA1"],
             "Mobile": false
         },
         {
             "DeviceName": "CR02",
             "IpAddress": "192.168.105.91",
             "Type": "thermal",
+            "Managers": ["b3BlbnNzaC1rZXktdjEAAAA1", "b3BlbnNzaC1rZXktdjEAAAA2"],
             "Mobile": false
         },
         {
             "DeviceName": "SR01",
             "IpAddress": "192.168.100.30",
             "Type": "gas sensor",
+            "Managers": ["b3BlbnNzaC1rZXktdjEAAAA3"],
             "Mobile": true
         }
     ],

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -16,6 +17,8 @@ namespace SysOT.Models
         [BsonIgnoreIfNull]
         [BsonElement("Desc")]
         public string Description { get; set; }
+
+        public IEnumerable<string> Managers { get; set; }
 
         public bool Mobile { get; set; }
     }

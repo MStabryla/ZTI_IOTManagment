@@ -31,7 +31,7 @@ namespace backend.Controllers
                 return Unauthorized();
             
             var token = enc.GenerateToken(user);
-            return Ok(new {token});
+            return Ok(new {token,userId = user.Id});
         }
     }
 }
