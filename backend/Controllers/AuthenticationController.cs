@@ -23,7 +23,7 @@ namespace backend.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginModel model)
         {
-            var userQuery = db.GetDocuments<User>("Users", (new {Email = model.Email}).ToBsonDocument());
+            var userQuery = db.GetDocuments<UserModel>("Users", (new {Email = model.Email}).ToBsonDocument());
             if(userQuery.Count() < 1)
                 return Unauthorized();
             var user = userQuery.ElementAt(0);

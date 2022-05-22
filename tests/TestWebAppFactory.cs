@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SysOT.Models;
 using System.Net.Http.Json;
 using SysOT.Tests.Models;
+using Xunit;
 
 namespace SysOT.Tests
 {
@@ -20,8 +21,9 @@ namespace SysOT.Tests
             var client = CreateClient();
             LoginModel model = new LoginModel(){ Email = email, Password = password};
             var postContent = JsonContent.Create(model);
-            var response = await client.PostAsync("auth/login",postContent);
+            var response = await client.PostAsync("/auth/login",postContent);
             var responseData = await response.Content.ReadFromJsonAsync<TokenModel>();
+            Assert.NotNull(responseData.Token);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",responseData.Token);
             return client;
         }

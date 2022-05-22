@@ -17,41 +17,43 @@ namespace SysOT.Controllers
     public class UserController : ControllerBase
     {
         IMongoService db;
-        public UserController(IMongoService _db)
+        IEncService enc;
+        public UserController(IMongoService _db,IEncService _enc)
         {
-            db = _db;
+            db = _db; enc = _enc;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await db.GetDocumentsAsync<User>("Users",(new {}).ToBsonDocument() );
+            var users = await db.GetDocumentsAsync<UserModel>("Users",(new {}).ToBsonDocument() );
             return Ok(users.Take(25).ToArray());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(string id)
         {
-            var users = await db.GetDocumentsAsync<User>("Users",(new {_id = id}).ToBsonDocument() );
+            var users = await db.GetDocumentsAsync<UserModel>("Users",(new {_id = id}).ToBsonDocument() );
             if(users.Count() < 1)
                 return NotFound();
             return Ok(users.First());
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> PostUser(User model)
+        public async Task<IActionResult> PostUser(UserModel model)
         {
-            await db.InsertDocumentAsync<User>("Users",model);
-            return Ok();
+            model.PasswordHash = enc.EncryptPassword(model.PasswordHash);
+            await db.InsertDocumentAsync<UserModel>("Users",model);
+            return Ok(model.Cast<UserModel,UserViewModel>());
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id, User model)
+        public async Task<IActionResult> PutUser(string id, UserModel model)
         {
-            var users = await db.GetDocumentsAsync<User>("Users",(new {_id = new ObjectId(id)}).ToBsonDocument() );
+            var users = await db.GetDocumentsAsync<UserModel>("Users",(new {_id = new ObjectId(id)}).ToBsonDocument() );
             if(users.Count() < 1)
                 return NotFound();
-            var result = await db.UpdateDocuments<User>("Users",x => x.Id == id,model);
+            var result = await db.UpdateDocuments<UserModel>("Users",x => x.Id == id,model);
             if(result != 1)
                 throw new Exception("Wrong query to database");
             return Ok();
@@ -60,10 +62,10 @@ namespace SysOT.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserById(string id)
         {
-            var users = await db.GetDocumentsAsync<User>("Users",(new {_id = new ObjectId(id)}).ToBsonDocument() );
+            var users = await db.GetDocumentsAsync<UserModel>("Users",(new {_id = new ObjectId(id)}).ToBsonDocument() );
             if(users.ToList().Count() < 1)
                 return NotFound();
-            var result = await db.RemoveDocuments<User>("Users",x => x.Id == id);
+            var result = await db.RemoveDocuments<UserModel>("Users",x => x.Id == id);
             if(result != 1)
                 throw new Exception("Wrong query to database");
             return Ok();

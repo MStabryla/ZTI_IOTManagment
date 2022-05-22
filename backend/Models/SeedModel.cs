@@ -12,6 +12,6 @@ namespace SysOT.Models
 
         public IEnumerable<MeasurementBucket> Measurements { get; set; }
         
-        public IEnumerable<User> Users { get; set; }
+        public IEnumerable<UserModel> Users { get; set; }
     }
 }

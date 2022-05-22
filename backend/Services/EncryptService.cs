@@ -13,7 +13,7 @@ namespace SysOT.Services
     public interface IEncService
     {
         string EncryptPassword(string password);
-        string GenerateToken(User user);
+        string GenerateToken(UserModel user);
     }
     public class EncService : IEncService
     {
@@ -37,7 +37,7 @@ namespace SysOT.Services
                 16
             ));
         }
-        public string GenerateToken(User user){
+        public string GenerateToken(UserModel user){
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var claims = new Claim[] {

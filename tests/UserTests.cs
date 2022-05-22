@@ -22,7 +22,7 @@ namespace SysOT.Tests
             var response = await client.GetAsync("user");
             Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
 
-            var responseData = await response.Content.ReadFromJsonAsync<User[]>();
+            var responseData = await response.Content.ReadFromJsonAsync<UserModel[]>();
             Assert.NotEmpty(responseData);
         }
 
@@ -34,15 +34,37 @@ namespace SysOT.Tests
             Assert.Equal(System.Net.HttpStatusCode.Forbidden,response.StatusCode);
 
         }
+        [Fact]
+        public async Task UserAddAndRemove()
+        {
+            var client = await factory.GetAuthorizedClient("main_admin@sysot.com");
+
+            var user = new UserModel(){
+                Name = "TestUser_" + DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToShortTimeString(),
+                Email = ("TestUser_" + DateTime.Now.ToShortDateString()).ToLower() + "_@sysot.com",
+                PasswordHash = "zaq1@WSX",
+                Roles = new string[] {"User"}
+            };
+            var content = JsonContent.Create(user);
+            var response = await client.PostAsync("/user/",content);
+            Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
+
+            var responseData = await response.Content.ReadFromJsonAsync<UserModel>();
+            Assert.NotNull(responseData.Id);
+            Assert.NotEqual(user.PasswordHash,responseData.PasswordHash);
+
+            response = await client.DeleteAsync("/user/" + responseData.Id);
+            Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
+        }
 
         [Fact]
-        public async Task GetUserModify()
+        public async Task UserModify()
         {
             var client = await factory.GetAuthorizedClient("main_admin@sysot.com");
             var response = await client.GetAsync("user");
             Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
 
-            var responseData = await response.Content.ReadFromJsonAsync<User[]>();
+            var responseData = await response.Content.ReadFromJsonAsync<UserModel[]>();
             Assert.NotEmpty(responseData);
 
             var user = responseData[0];
@@ -53,5 +75,6 @@ namespace SysOT.Tests
             response = await client.PutAsync("/user/" + user.Id,content);
             Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
         }
+
     }
 }
