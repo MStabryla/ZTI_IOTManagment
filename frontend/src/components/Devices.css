@@ -1,0 +1,6 @@
+.devices{
+    padding:10vh;
+    font-family: Revalia;
+    display: flex;
+    flex-direction: column;
+}

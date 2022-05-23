@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: "Revalia";
+  src: local("Revalia"),
+   url("./fonts/Revalia/revalia.regular.ttf");
+}
