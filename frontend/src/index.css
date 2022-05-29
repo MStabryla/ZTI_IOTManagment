@@ -17,3 +17,9 @@ code {
   src: local("Revalia"),
    url("./fonts/Revalia/revalia.regular.ttf");
 }
+
+@font-face {
+  font-family: "Roboto";
+  src: local("Roboto"),
+   url("./fonts/Roboto/Roboto-Light.ttf");
+}

@@ -1,6 +1,8 @@
 import './App.css';
 import logo from './img/logo.png';
-import Devices from './components/Devices';
+import Login from './pages/Login';
+import Main from './pages/Main';
+import { Route, Routes, BrowserRouter } from 'react-router-dom'
 
 function App() {
   return (
@@ -9,7 +11,7 @@ function App() {
       <a className="navbar-brand" href="/">
         <img src={logo} alt="err" className="logo"/>
         SysOT</a>
-      <div >
+      <div className="justify-content-between">
         <ul className="navbar-nav">
           <li className="nav-item active">
             <a className="nav-link" href="/">Docs</a>
@@ -23,11 +25,21 @@ function App() {
           <li className="nav-item">
             <a className="nav-link disabled" href="/">Concact</a>
           </li>
+          <li className="sign-in">
+            <a href="/login" className="inline btn btn-outline-success my-2 my-sm-0" >Sign In</a>
+          </li>
         </ul>
+        
       </div>
     </nav>
       <section className="container" id='mainContent'>
-        <Devices />
+      <BrowserRouter>
+        <Routes>
+          <Route path="" element={<Main/>} />
+          <Route path="/" element={<Main/>} />
+          <Route path="/login" element={<Login/>} />
+        </Routes>
+      </BrowserRouter>
       </section>
       <footer id="mainFooter">
         <div className="container navbar navbar-dark">
