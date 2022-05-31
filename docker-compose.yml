@@ -1,0 +1,35 @@
+version: "3"
+services:
+  database:
+    image: mongo:latest
+    hostname: database
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=zti-mongo
+      - MONGO_INITDB_ROOT_PASSWORD=zaq1WSX
+      - MONGO_INITDB_DATABASE=SysOT
+    ports: 
+      - 3061:27017
+    networks:
+      - zti
+  backend:
+    image: zti-backend:latest
+    hostname: backend
+    ports: 
+      - 5000:5000
+      - 5001:5001
+    depends_on:
+      - database
+    networks:
+      - zti
+  frontend:
+    image: zti-frontend:latest
+    hostname: frontend
+    ports: 
+      - 3000:3000
+      - 3001:3001
+    depends_on:
+      - backend
+    networks:
+      - zti
+networks:
+  zti: {}
