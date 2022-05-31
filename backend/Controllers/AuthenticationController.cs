@@ -6,7 +6,7 @@ using MongoDB.Bson;
 using SysOT.Models;
 using SysOT.Services;
 
-namespace backend.Controllers
+namespace SysOT.Controllers
 {
     [ApiController]
     [Route("auth")]

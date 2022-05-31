@@ -2,9 +2,18 @@ import './App.css';
 import logo from './img/logo.png';
 import Login from './pages/Login';
 import Main from './pages/Main';
+import User from './pages/User';
 import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import Api from './services/Api';
 
 function App() {
+  const loggedId = Api.loggedIn();
+  let signPart = !loggedId ? <li className="sign-in" >
+    <a href="/login" className="inline btn btn-outline-success my-2 my-sm-0" >Sign In</a>
+  </li>
+  : <li className="nav-item">
+    <a className="nav-link" href="/user">User</a>
+  </li>;
   return (
     <div>
      <nav className="navbar navbar-expand-lg navbar-light container" id="mainNavbar">
@@ -25,18 +34,15 @@ function App() {
           <li className="nav-item">
             <a className="nav-link disabled" href="/">Concact</a>
           </li>
-          <li className="sign-in">
-            <a href="/login" className="inline btn btn-outline-success my-2 my-sm-0" >Sign In</a>
-          </li>
+          {signPart}
         </ul>
-        
       </div>
     </nav>
       <section className="container" id='mainContent'>
       <BrowserRouter>
         <Routes>
-          <Route path="" element={<Main/>} />
           <Route path="/" element={<Main/>} />
+          <Route path="/user" element={<User/>} />
           <Route path="/login" element={<Login/>} />
         </Routes>
       </BrowserRouter>

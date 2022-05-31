@@ -21,6 +21,7 @@ using SysOT.Services;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using System.Runtime.InteropServices;
 
 namespace SysOT
 {
@@ -63,6 +64,15 @@ namespace SysOT
                     IssuerSigningKey = new SymmetricSecurityKey(Key)
                 };
             });
+            services.AddCors(setupAction =>
+                setupAction.AddPolicy("Frontend",
+                    builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    //.AllowAnyOrigin()
+                    .WithOrigins("https://localhost:3000")
+                )
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +84,8 @@ namespace SysOT
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend v1"));
             }
+
+            app.UseCors("Frontend");
 
             app.UseHttpsRedirection();
 
@@ -87,9 +99,10 @@ namespace SysOT
             {
                 endpoints.MapControllers();
             });
-
+            
+            var linux = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
             if(Configuration.GetValue<string>("migrate") == "true")
-                Seed(app,env.ContentRootPath + "\\" + Configuration["Database:SeedFile"],Configuration["Database:SeedPassword"],Configuration["Database:Salt"]);
+                Seed(app,env.ContentRootPath + (!linux ? "\\" : "/") + Configuration["Database:SeedFile"],Configuration["Database:SeedPassword"],Configuration["Database:Salt"]);
         }
         public void Seed(IApplicationBuilder app,string seed,string password,string salt){
             IMongoService mongoSeedService = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IMongoService>();
