@@ -2,6 +2,8 @@ import React from 'react'
 import './Login.css'
 import Api from '../services/Api';
 import { Navigate } from 'react-router-dom';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 class Login extends React.Component {
    constructor (props){
@@ -10,25 +12,38 @@ class Login extends React.Component {
          Email: '',
          Password: ''
       }
+      this.loggedIn = Api.loggedIn()
+      this.props = props;
+      console.log(this.loggedIn) 
    }
    change (event,parameter){
-      const newState = {};
+      const newState = this.state;
       newState[parameter] = event.target.value;
       this.setState(newState);
+   }
+   componentDidMount(){
 
    }
    async signIn(event){
       event.preventDefault();
-      //console.log(this)
-      const res = await Api.post("auth/login",this.state);
-      if(res.status != 200)
-         throw Error("User not logged");
+      let res;
+      res = await Api.post("auth/login",this.state).catch((error) => {
+         if(error.response.status === 401)
+            NotificationManager.error("Błędny login lub hasło!","Nie zalogowano",5000);
+         else if(error.response.status >= 500)
+            NotificationManager.error("Serwer nie mógł wykonać żądania!","Błąd serwera",5000);
+         else
+            NotificationManager.error("Nie można połączyć się z serwerem!","Nieznany błąd",5000);
+      });
       Api.setToken(res.data.token);
-      return <Navigate to="/user" />
-      //this.props.history.push("/user");
-      
+      NotificationManager.success("","Zalogowano",1000);
+      this.loggedIn = Api.loggedIn()
+      this.props.updateFromChild();
+      this.setState({});
    }
    render() {
+      if(this.loggedIn)
+         return <Navigate to="/" />
       return (
          <div>
             <h2>Sign in</h2>
@@ -43,6 +58,7 @@ class Login extends React.Component {
                </div>
                <button type="submit" className="btn btn-primary">Log In</button>
             </form>
+            <NotificationContainer/>
          </div>
       )
    }

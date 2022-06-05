@@ -1,17 +1,14 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom';
 import Api from '../services/Api';
+import { Navigate } from 'react-router-dom'
 
 class User extends React.Component{
-    constructor(props){
-        super(props);
-    }
     componentDidMount(){
-        const token = Api.getToken();
-        if(!token)
-            return <Navigate to="/" />
+        this.token = Api.getToken();
     }
     render() {
+        if(!this.token)
+            return <Navigate to="/login"/>
         return (
             <div className='UserData'>
                 UserData

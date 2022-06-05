@@ -1,12 +1,16 @@
 import './Main.css'
 import Devices from '../components/Devices';
+import React from 'react';
 
-function Main(){
-    return (
-        <div>
-            <Devices/>
-        </div>
-    );
+class Main extends React.Component {
+    render(){
+        return (
+            <div>
+                <Devices/>
+            </div>
+        );
+    }
+    
 }
 
 export default Main;

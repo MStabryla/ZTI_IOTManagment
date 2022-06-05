@@ -9,6 +9,7 @@ using SysOT.Services;
 namespace SysOT.Controllers
 {
     [ApiController]
+    [AllowAnonymous]
     [Route("auth")]
     public class AuthenticationController : Controller
     {
@@ -19,7 +20,6 @@ namespace SysOT.Controllers
             db = _db; enc = _enc;
         }
 
-        [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult Login(LoginModel model)
         {

@@ -33,6 +33,6 @@
 #mainContent{
   min-height: 100vh;
 }
-.sign-in{
+.sign-in,.sign-out{
   margin-left: 1em;
 }
