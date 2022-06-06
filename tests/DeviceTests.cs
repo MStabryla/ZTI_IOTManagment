@@ -19,7 +19,7 @@ namespace SysOT.Tests
         public async Task GetDevices()
         {
             var client = await factory.GetAuthorizedClient("main_admin@sysot.com");
-            var response = await client.GetAsync("user");
+            var response = await client.GetAsync("devices");
             Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
 
             var responseData = await response.Content.ReadFromJsonAsync<Device[]>();

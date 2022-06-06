@@ -19,7 +19,9 @@ namespace SysOT.Services
         Task InsertDocumentAsync<T>(string collectionName, T document);
         Task InsertDocumentsAsync<T>(string collectionName, IEnumerable<T> document);
         Task<IEnumerable<T>> GetDocumentsAsync<T>(string collectionName, BsonDocument queryObject);
-        Task<long> UpdateDocuments<T>(string collectionName, Expression<Func<T,bool>> filter, object setObject);
+        Task<IEnumerable<T>> GetDocumentsAsync<T>(string collectionName, FilterDefinition<T> filter);
+        Task<IEnumerable<T>> GetDocumentsAsync<T>(string collectionName, Expression<Func<T,bool>> filter);
+        Task<long> UpdateDocuments<T>(string collectionName, Expression<Func<T,bool>> filter, T setObject);
         Task<long> RemoveDocuments<T>(string collectionName, Expression<Func<T,bool>> filter);
     }
 
@@ -46,6 +48,18 @@ namespace SysOT.Services
         {
             var collection = database.GetCollection<T>(collectionName);
             var results = await collection.FindAsync<T>(queryObject);
+            return results.ToList();
+        }
+        public async Task<IEnumerable<T>> GetDocumentsAsync<T>(string collectionName, FilterDefinition<T> filter)
+        {
+            var collection = database.GetCollection<T>(collectionName);
+            var results = await collection.FindAsync<T>(filter);
+            return results.ToList();
+        }
+        public async Task<IEnumerable<T>> GetDocumentsAsync<T>(string collectionName, Expression<Func<T,bool>> filter)
+        {
+            var collection = database.GetCollection<T>(collectionName);
+            var results = await collection.FindAsync<T>(filter);
             return results.ToList();
         }
 
@@ -88,7 +102,7 @@ namespace SysOT.Services
             return result.DeletedCount;
         }
 
-        public async Task<long> UpdateDocuments<T>(string collectionName, Expression<Func<T,bool>> filter, object setObject)
+        public async Task<long> UpdateDocuments<T>(string collectionName, Expression<Func<T,bool>> filter, T setObject)
         {
             var collection = database.GetCollection<T>(collectionName);
             var type = setObject.GetType();
