@@ -33,6 +33,19 @@ namespace SysOT.Tests
             var bucket = await response.Content.ReadFromJsonAsync<MeasurementBucket>();
             Assert.True(bucket.Values.Any(x => x.Time == data.Time));
         }
-        
+        [Fact]
+        public async Task GetData(){
+            var client = await factory.GetAuthorizedClient("manager@sysot.com");
+            var response = await client.GetAsync("devices");
+            Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
+
+            var responseData = await response.Content.ReadFromJsonAsync<Device[]>();
+            Assert.NotEmpty(responseData);
+
+            response = await client.GetAsync("/data/" + responseData[1].Id);
+            Assert.Equal(System.Net.HttpStatusCode.OK,response.StatusCode);
+            var buckets = await response.Content.ReadFromJsonAsync<MeasurementBucket[]>();
+            Assert.NotEmpty(buckets);
+        }
     }
 }

@@ -21,6 +21,7 @@
     ],
     "Devices":[
         {
+            "Id":"f7cfdf74a72487c765da182e",
             "DeviceName": "CR01",
             "IpAddress": "192.168.105.90",
             "Type": "atmospheric",
@@ -28,6 +29,7 @@
             "Mobile": false
         },
         {
+            "Id":"d3827263ba73eb571879e812",
             "DeviceName": "CR02",
             "IpAddress": "192.168.105.91",
             "Type": "thermal",
@@ -35,6 +37,7 @@
             "Mobile": false
         },
         {
+            "Id":"b94c032a91ac74ec9d3c752b",
             "DeviceName": "SR01",
             "IpAddress": "192.168.100.30",
             "Type": "gas sensor",
@@ -67,10 +70,15 @@
     "Measurements":[
         { 
             "Device": { 
-                "DeviceName": "CR01", "IpAddress": "192.168.105.90", "Type": "atmospheric","Mobile": false 
+                "Id":"d3827263ba73eb571879e812",
+                "DeviceName": "CR02",
+                "IpAddress": "192.168.105.91",
+                "Type": "thermal",
+                "Managers": ["37369526b572f18ed05fa262", "928431e1262e534e40f2753f"],
+                "Mobile": false
             }, 
             "MeasurementType": {
-                "TypeName":"numeric - integer",
+                "TypeName":"temperature - integer",
                 "VariableType": "int",
                 "Numeric": true
             },
@@ -103,7 +111,7 @@
         },
         { 
             "Device": { 
-                "DeviceName": "SR01", "IpAddress": "192.168.105.90", "Type": "atmospheric","Mobile": false 
+                "Id":"b94c032a91ac74ec9d3c752b","DeviceName": "SR01", "IpAddress": "192.168.105.90", "Type": "atmospheric","Mobile": false 
             }, 
             "MeasurementType": {
                 "TypeName":"CO gas dencity",
