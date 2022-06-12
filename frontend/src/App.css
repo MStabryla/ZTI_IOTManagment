@@ -4,6 +4,8 @@
 
 .navbar {
   font-family: Revalia;
+  overflow:hidden;
+  padding-bottom: 1em;
 }
 
 #mainNavbar .navbar-brand,#mainFooter .navbar-brand {
@@ -16,9 +18,29 @@
 #mainNavbar .navbar-nav{
   flex-direction: row;
 }
+@media screen and (max-width:576px) {
+  #mainNavbar,#mainNavbar .navbar-nav{
+    flex-direction: column;
+  }
+  #mainNavbar .navbar-nav li{
+    text-align: center;
+  }
+  #mainNavbar .navbar-brand{
+    margin-right: 0;
+  }
+  .sign-in, .sign-out{
+    margin: auto!important;
+  }
+}
 
 #mainNavbar .nav-item .nav-link{
   font-size:20px;
+}
+
+.justify-content-between{
+  position: relative;
+  width: 100%;
+  min-height: 50px;
 }
 
 .logo{
@@ -33,6 +55,23 @@
 #mainContent{
   min-height: 100vh;
 }
-.sign-in,.sign-out{
+.sign-in, .sign-out{
   margin-left: 1em;
+}
+.navbar-toggler{
+  display:none;
+  position: absolute;
+  top:0;
+  right:0;
+}
+.collapsed{
+  display:block;
+}
+@media screen and (max-width:576px) {
+  .navbar-toggler{
+    display:inline-block;
+  }
+  .collapsed{
+    display:none!important;
+  }
 }

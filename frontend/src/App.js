@@ -5,16 +5,24 @@ import Login from './pages/Login';
 import Main from './pages/Main';
 import User from './pages/User';
 import SignOut from './pages/SignOut';
-import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import { Route, Routes, BrowserRouter} from 'react-router-dom'
 import Api from './services/Api';
+import Devices from './pages/Devices'
 
 class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {expandNavbar: false}
+  }
   updateFromChild() {
-    this.setState({})
+    this.setState({expandNavbar: this.state.expandNavbar})
   }
   signOut(){
     Api.signOut();
-    this.setState({})
+    this.setState({expandNavbar: this.state.expandNavbar})
+  }
+  expandNavbar(){
+    this.setState({expandNavbar: !this.state.expandNavbar})
   }
   render(){
     const logged = Api.loggedIn();
@@ -31,32 +39,39 @@ class App extends React.Component {
           <a className="navbar-brand" href="/">
             <img src={logo} alt="err" className="logo"/>
             SysOT</a>
-          <div className="justify-content-between">
-            <ul className="navbar-nav">
-              <li className="nav-item active">
-                <a className="nav-link" href="/">Docs</a>
+          <div className="justify-content-between" >
+            <ul className={!this.state.expandNavbar ? "navbar-nav collapsed" : "navbar-nav"} id="mainNavbarLinks">
+              <li className="nav-item">
+                <a className={logged ? "nav-link" : "nav-link disabled"} href="/devices">Devices</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled" href="/">Pricing</a>
+                <a className={logged ? "nav-link" : "nav-link disabled"} href="/data-types">Data Types</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link disabled" href="/">About Us</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled" href="/">Concact</a>
+                <a className="nav-link disabled" href="/">Contact</a>
               </li>
               {signPart}
-              
+              <li>
+                {signOut}
+              </li>
             </ul>
-          </div>
-          <div>
-            {signOut}
+            <button className="navbar-toggler" type="button" onClick={this.expandNavbar.bind(this)}
+                data-bs-toggle="collapse" data-bs-target="#mainNavbarLinks"
+                aria-controls="mainNavbarLinks" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
           </div>
         </nav>
         <section className="container" id='mainContent'>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />} />
+            <Route path="/devices" element={<Devices />} />
+            <Route path="/data-types" element={<Devices />} />
             <Route path="/user" element={<User/>} />
             <Route path="/login" element={<Login updateFromChild={this.updateFromChild.bind(this)} />} />
             <Route path="/signout" element={<SignOut updateFromChild={this.updateFromChild.bind(this)}/>} />

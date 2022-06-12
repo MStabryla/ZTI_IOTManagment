@@ -8,6 +8,7 @@ class Api {
     }
     getToken(){
         this.token = localStorage.getItem("JWT_TOKEN");
+        return this.token;
     }
     loggedIn(){
         this.getToken();

@@ -4,10 +4,11 @@ import { Navigate } from 'react-router-dom'
 
 class User extends React.Component{
     componentDidMount(){
-        this.token = Api.getToken();
     }
     render() {
-        if(!this.token)
+        this.logged = Api.loggedIn();
+        console.log("render",this.logged)
+        if(!this.logged)
             return <Navigate to="/login"/>
         return (
             <div className='UserData'>

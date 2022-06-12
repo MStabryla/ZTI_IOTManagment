@@ -1,6 +1,10 @@
 .devices{
-    padding:10vh;
     font-family: Revalia;
     display: flex;
     flex-direction: column;
 }
+@media screen and (max-width:576px) {
+    .devices{
+        padding:0;
+    }
+  }
