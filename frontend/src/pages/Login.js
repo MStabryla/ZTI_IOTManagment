@@ -3,7 +3,7 @@ import './Login.css'
 import Api from '../services/Api';
 import { Navigate } from 'react-router-dom';
 import 'react-notifications/lib/notifications.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {NotificationManager} from 'react-notifications';
 
 class Login extends React.Component {
    constructor (props){
@@ -58,7 +58,6 @@ class Login extends React.Component {
                </div>
                <button type="submit" className="btn btn-primary">Log In</button>
             </form>
-            <NotificationContainer/>
          </div>
       )
    }

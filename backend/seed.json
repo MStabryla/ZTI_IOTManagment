@@ -26,7 +26,8 @@
             "IpAddress": "192.168.105.90",
             "Type": "atmospheric",
             "Managers": ["37369526b572f18ed05fa262"],
-            "Mobile": false
+            "Mobile": false,
+            "Description":"Outside sensor - roof"
         },
         {
             "Id":"d3827263ba73eb571879e812",
@@ -34,7 +35,8 @@
             "IpAddress": "192.168.105.91",
             "Type": "thermal",
             "Managers": ["37369526b572f18ed05fa262", "928431e1262e534e40f2753f"],
-            "Mobile": false
+            "Mobile": false,
+            "Description":"Temperature sensor - main hall"
         },
         {
             "Id":"b94c032a91ac74ec9d3c752b",
@@ -42,6 +44,7 @@
             "IpAddress": "192.168.100.30",
             "Type": "gas sensor",
             "Managers": ["0368b2fef35d0a95d002a8fc"],
+            "Description":"CO sensor - main hall",
             "Mobile": true
         }
     ],

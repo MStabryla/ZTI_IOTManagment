@@ -8,3 +8,14 @@
         padding:0;
     }
   }
+
+.device-actions{
+    display: flex;
+    justify-content: flex-end;
+}
+.device-form{
+    padding-bottom: 1em;
+}
+.device-form .form-group,.device-form .form-check{
+    padding-bottom: 1em;
+}

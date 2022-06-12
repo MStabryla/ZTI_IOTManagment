@@ -23,3 +23,20 @@ code {
   src: local("Roboto"),
    url("./fonts/Roboto/Roboto-Light.ttf");
 }
+
+.btn-action{
+  min-width: 1em;
+  min-height: 1em;
+  
+}
+.btn-action i{
+  font-size: 24px;
+  font-weight: bold;
+}
+.form-group input[type='checkbox']{
+  width: 1rem;
+  height: 1rem;
+}
+.form-group-checkbox{
+  
+}

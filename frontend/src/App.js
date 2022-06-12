@@ -8,6 +8,7 @@ import SignOut from './pages/SignOut';
 import { Route, Routes, BrowserRouter} from 'react-router-dom'
 import Api from './services/Api';
 import Devices from './pages/Devices'
+import {NotificationContainer} from 'react-notifications'
 
 class App extends React.Component {
   constructor(props){
@@ -35,6 +36,7 @@ class App extends React.Component {
     let signOut = !logged ? "" : <button onClick={this.signOut.bind(this)} className="sign-out inline btn btn-outline-danger my-2 my-sm-0" >Sign Out</button>
     return (
       <div>
+        <NotificationContainer/>
         <nav className="navbar navbar-expand-lg navbar-light container" id="mainNavbar">
           <a className="navbar-brand" href="/">
             <img src={logo} alt="err" className="logo"/>

@@ -38,3 +38,16 @@
     font-weight: bold;
     text-align: right;
 }
+.device-actions{
+    display: flex;
+    justify-self: center;
+}
+.device-action{
+    width:32px;
+    height:32px;
+    font-size: 1.1em!important;
+    padding: 2px!important;
+    margin: 0.1em;
+    display: flex;
+    justify-content: center;
+}
