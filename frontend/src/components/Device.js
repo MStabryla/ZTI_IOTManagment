@@ -3,6 +3,9 @@ import cpu from '../img/cpu.png'
 import React from 'react'
 
 class Device extends React.Component{
+    edit(){
+        this.props.editAction(this.props.device)
+    }
     remove(){
         this.props.removeAction(this.props.device.id)
     }
@@ -19,7 +22,7 @@ class Device extends React.Component{
                 </div>
                 <div className="device-right-part col-2">
                     <div className="device-actions">
-                        <button className='btn device-action btn-warning'><i className="bi bi-pencil"></i></button>
+                        <button className='btn device-action btn-warning' onClick={this.edit.bind(this)}><i className="bi bi-pencil"></i></button>
                         <button className='btn device-action btn-danger' onClick={this.remove.bind(this)}><i className="bi bi-trash"></i></button>
                     </div>
                     

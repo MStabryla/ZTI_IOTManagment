@@ -11,8 +11,8 @@ class User extends React.Component{
         if(!this.logged)
             return <Navigate to="/login"/>
         return (
-            <div className='UserData'>
-                UserData
+            <div className='user-data'>
+                
             </div>
         )
     }

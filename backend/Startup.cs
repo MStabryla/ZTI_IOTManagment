@@ -22,6 +22,9 @@ using Newtonsoft.Json;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Runtime.InteropServices;
+using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace SysOT
 {
@@ -80,7 +83,21 @@ namespace SysOT
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler(exceptionHandlerApp =>
+                {
+                    exceptionHandlerApp.Run(async context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+                        // using static System.Net.Mime.MediaTypeNames;
+                        context.Response.ContentType = Text.Plain;
+
+                        var exceptionHandlerPathFeature =
+                            context.Features.Get<IExceptionHandlerPathFeature>();
+
+                        await context.Response.WriteAsync("Error: " + exceptionHandlerPathFeature?.Error.Message);
+                    });
+                });
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend v1"));
             }

@@ -42,6 +42,7 @@ namespace SysOT.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult<Device>> PostDevice(Device model)
         {
+            model.Id = null;
             if(model.Managers == null)
                 model.Managers = new string[] { User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value };
             await db.InsertDocumentAsync<Device>("Devices",model);
@@ -60,7 +61,7 @@ namespace SysOT.Controllers
                 return Forbid();
             var result = await db.UpdateDocuments<Device>("Devices",x => x.Id == id,model);
             if(result != 1)
-                throw new Exception("Wrong query to database");
+                throw new Exception("Query didn't affect record!");
             model = (await db.GetDocumentsAsync<Device>("Devices",(new {_id = new ObjectId(id)}).ToBsonDocument())).First();
             return Ok(model);
         }
@@ -77,7 +78,7 @@ namespace SysOT.Controllers
                 return Forbid();
             var result = await db.RemoveDocuments<Device>("Devices",x => x.Id == id);
             if(result != 1)
-                throw new Exception("Wrong query to database");
+                throw new Exception("Query didn't affect record!");
             return Ok();
         }
     }

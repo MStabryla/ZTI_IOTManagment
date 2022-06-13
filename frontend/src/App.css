@@ -75,6 +75,9 @@
     display:none!important;
   }
 }
+.form-group label{
+  padding-bottom:0.5em;
+}
 
 .btn-action{
   min-width: 3em;
