@@ -86,7 +86,7 @@ namespace SysOT.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult<MeasurementType>> PostMeasurementType(MeasurementType model)
         {
-            await db.InsertDocumentAsync("MeasurementType",model);
+            await db.InsertDocumentAsync("MeasurementTypes",model);
             return Ok(model);
         }
 
@@ -94,11 +94,11 @@ namespace SysOT.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> PutMeasurementType(string id, MeasurementType model)
         {
-            var types = await db.GetDocumentsAsync<MeasurementType>("MeasurementType",x => x.Id == id);
+            var types = await db.GetDocumentsAsync<MeasurementType>("MeasurementTypes",x => x.Id == id);
             if(types.Count() < 1)
                 return NotFound();
-            await db.UpdateDocuments<MeasurementType>("MeasurementType",x => x.Id == id,model);
-            var type = (await db.GetDocumentsAsync<MeasurementType>("MeasurementType",x => x.Id == id)).First();
+            await db.UpdateDocuments<MeasurementType>("MeasurementTypes",x => x.Id == id,model);
+            var type = (await db.GetDocumentsAsync<MeasurementType>("MeasurementTypes",x => x.Id == id)).First();
             return Ok(type);
         }
 
@@ -106,7 +106,7 @@ namespace SysOT.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<MeasurementType>> DeleteMeasurementTypeById(string id)
         {
-            var result = await db.RemoveDocuments<MeasurementType>("MeasurementType",x => x.Id == id);
+            var result = await db.RemoveDocuments<MeasurementType>("MeasurementTypes",x => x.Id == id);
             if(result != 1)
                 throw new Exception("Query didn't affect record!");
             return Ok();

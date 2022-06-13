@@ -1,0 +1,11 @@
+.data-type-actions{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.data-type-form .form-check{
+    display:table-cell;
+}
+.data-type-form .form-check input{
+    margin: 0.5em;
+}

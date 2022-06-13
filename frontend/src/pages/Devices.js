@@ -19,8 +19,7 @@ const defaultState =  {
 class Devices extends React.Component {
     constructor(){
         super();
-        this.state = {}
-        Object.assign(this.state,defaultState);
+        this.state = Object.assign({},defaultState);
         this.deviceFormDescriptor = [
             { fieldName:"Device Name", fieldValue:"deviceName", type:"text", description:"Enter device name"},
             { fieldName:"Device Ip Address", fieldValue:"ipAddress", type:"text", description:"Enter device IPv4 address"},

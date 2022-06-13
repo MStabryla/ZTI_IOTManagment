@@ -9,6 +9,7 @@ import { Route, Routes, BrowserRouter} from 'react-router-dom'
 import Api from './services/Api';
 import Devices from './pages/Devices'
 import {NotificationContainer} from 'react-notifications'
+import DataTypes from './pages/DataTypes';
 
 class App extends React.Component {
   constructor(props){
@@ -47,10 +48,10 @@ class App extends React.Component {
                 <a className={logged ? "nav-link" : "nav-link disabled"} href="/devices">Devices</a>
               </li>
               <li className="nav-item">
-                <a className={logged ? "nav-link" : "nav-link disabled"} href="/data-types">Data Types</a>
+                <a className={logged ? "nav-link" : "nav-link disabled"} href="/data">Data</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled" href="/">About Us</a>
+                <a className={logged ? "nav-link" : "nav-link disabled"} href="/data-types">Data Types</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link disabled" href="/">Contact</a>
@@ -73,7 +74,7 @@ class App extends React.Component {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/devices" element={<Devices />} />
-            <Route path="/data-types" element={<Devices />} />
+            <Route path="/data-types" element={<DataTypes />} />
             <Route path="/user" element={<User/>} />
             <Route path="/login" element={<Login updateFromChild={this.updateFromChild.bind(this)} />} />
             <Route path="/signout" element={<SignOut updateFromChild={this.updateFromChild.bind(this)}/>} />
