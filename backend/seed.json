@@ -113,8 +113,14 @@
             ]
         },
         { 
-            "Device": { 
-                "Id":"b94c032a91ac74ec9d3c752b","DeviceName": "SR01", "IpAddress": "192.168.105.90", "Type": "atmospheric","Mobile": false 
+            "Device": {
+                "Id":"b94c032a91ac74ec9d3c752b",
+                "DeviceName": "SR01",
+                "IpAddress": "192.168.100.30",
+                "Type": "gas sensor",
+                "Managers": ["0368b2fef35d0a95d002a8fc"],
+                "Description":"CO sensor - main hall",
+                "Mobile": true
             }, 
             "MeasurementType": {
                 "TypeName":"CO gas dencity",

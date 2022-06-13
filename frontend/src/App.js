@@ -10,6 +10,7 @@ import Api from './services/Api';
 import Devices from './pages/Devices'
 import {NotificationContainer} from 'react-notifications'
 import DataTypes from './pages/DataTypes';
+import DataView from './pages/DataView';
 
 class App extends React.Component {
   constructor(props){
@@ -73,6 +74,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />} />
+            <Route path="/data" element={<DataView />} />
             <Route path="/devices" element={<Devices />} />
             <Route path="/data-types" element={<DataTypes />} />
             <Route path="/user" element={<User/>} />

@@ -57,7 +57,7 @@ namespace SysOT.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetData(string id){
             string userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var devices = await db.GetDocumentsAsync<Device>("Devices",x => x.Managers.Any(y => y == userId) && x.Id == id);
+            var devices = User.Claims.First(x => x.Type == ClaimTypes.Role).Value == "Admin" ? (await db.GetDocumentsAsync<Device>("Devices",x => x.Id == id)) : (await db.GetDocumentsAsync<Device>("Devices",x => x.Managers.Any(y => y == userId) && x.Id == id));
             if(devices.Count() < 1)
                 return NotFound();
             var device = devices.First();
